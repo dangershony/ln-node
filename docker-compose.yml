@@ -11,20 +11,31 @@
       expose:
         - "38332"
         - "38333"
-      command: ["bitcoind","-signet", "-server=1","-rpcallowip=0.0.0.0/0", 
-                          "-rpcbind=bitcoin", "-rpcpassword=rpcpassword", 
-                          "-rpcuser=user", "-rpcport=38332"]
+      ports:
+        - "0.0.0.0:38333:38333"
+      command: 
+        - bitcoind
+        - -signet
+        - -server=1
+        - -rpcallowip=0.0.0.0/0 
+        - -rpcbind=bitcoin
+        - -rpcpassword=rpcpassword
+        - -rpcuser=user
+        - -rpcport=38332
     
     lightning:
       container_name: lightning-signet
       image: dangershony/clnd:0.9.1
       networks:
         - lnnet
-      expose:
-        - "9735"
-        - "9835"
+      ports:
+        - "0.0.0.0:9735:9735"
       depends_on:
         - "bitcoin"
-      command: ["lightningd","--network=signet", "--bitcoin-rpcuser=user", 
-                            "--bitcoin-rpcpassword=rpcpassword", "--bitcoin-rpcconnect=bitcoin", 
-                            "--bitcoin-rpcport=38332"]
+      command: 
+        - lightningd
+        - --network=signet
+        - --bitcoin-rpcuser=user
+        - --bitcoin-rpcpassword=rpcpassword
+        - --bitcoin-rpcconnect=bitcoin
+        - --bitcoin-rpcport=38332
