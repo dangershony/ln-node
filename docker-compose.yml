@@ -1,10 +1,13 @@
   version: "3.3"
   networks:
     lnnet:
+  
+  volumes: 
+    lnd-data:
 
   services:
     bitcoin:
-      container_name: bitcoin-signet
+      container_name: signet-btc
       image: dangershony/signet:0.20.1
       networks:
         - lnnet
@@ -24,12 +27,16 @@
         - -rpcport=38332
     
     lightning:
-      container_name: lightning-signet
+      container_name: signet-ln
       image: dangershony/clnd:0.9.1
       networks:
         - lnnet
+      volumes:
+        - lnd-data:/rest
       ports:
         - "0.0.0.0:9735:9735"
+        - "0.0.0.0:3002:3002"
+        - "0.0.0.0:4001:4001"
       depends_on:
         - "bitcoin"
       command: 
@@ -39,3 +46,19 @@
         - --bitcoin-rpcpassword=rpcpassword
         - --bitcoin-rpcconnect=bitcoin
         - --bitcoin-rpcport=38332
+        - --plugin=/rest/plugin.js
+        - --rest-port=3002
+        - --rest-docport=4001
+
+    lightning-ui:
+      container_name: signet-ui
+      image: dangershony/clnd-rtl:latest
+      networks:
+        - lnnet
+      volumes:
+        - lnd-data:/rest
+      ports:
+        - "0.0.0.0:3000:3000"
+      depends_on:
+        - "lightning"
+

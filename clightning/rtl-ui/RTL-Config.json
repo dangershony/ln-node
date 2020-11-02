@@ -1,0 +1,29 @@
+{
+  "port": "3000",
+  "SSO": {
+    "rtlSSO": 0,
+    "rtlCookiePath": "",
+    "logoutRedirectLink": ""
+  },
+  "nodes": [
+    {
+      "index": 1,
+      "lnNode": "c-lightning signet # 1",
+      "lnImplementation": "CLT",
+      "Authentication": {
+        "macaroonPath": "/rest/certs",
+        "configPath": ""
+      },
+      "Settings": {
+        "userPersona": "OPERATOR",
+        "themeMode": "DAY",
+        "themeColor": "PURPLE",
+        "bitcoindConfigPath": "",
+        "enableLogging": true,
+        "fiatConversion": false,
+        "lnServerUrl": "https://lightning:3002"
+      }
+    }
+  ],
+  "multiPassHashed": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
+}
