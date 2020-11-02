@@ -4,6 +4,8 @@
   
   volumes: 
     lnd-data:
+    lnd-rest:
+    btc-data:
 
   services:
     bitcoin:
@@ -11,6 +13,8 @@
       image: dangershony/signet:0.20.1
       networks:
         - lnnet
+      volumes:
+        - btc-data:/root/.bitcoin
       expose:
         - "38332"
         - "38333"
@@ -32,7 +36,8 @@
       networks:
         - lnnet
       volumes:
-        - lnd-data:/rest
+        - lnd-rest:/rest
+        - lnd-data:/root/.lightning
       ports:
         - "0.0.0.0:9735:9735"
         - "0.0.0.0:3002:3002"
@@ -50,15 +55,15 @@
         - --rest-port=3002
         - --rest-docport=4001
 
+
     lightning-ui:
       container_name: signet-ui
       image: dangershony/clnd-rtl:latest
       networks:
         - lnnet
       volumes:
-        - lnd-data:/rest
+        - lnd-rest:/rest
       ports:
         - "0.0.0.0:3000:3000"
       depends_on:
         - "lightning"
-
