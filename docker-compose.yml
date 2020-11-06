@@ -18,8 +18,6 @@
       expose:
         - "38332"
         - "38333"
-      ports:
-        - "0.0.0.0:38333:38333"
       command: 
         - bitcoind
         - -signet
@@ -38,10 +36,9 @@
       volumes:
         - lnd-rest:/rest
         - lnd-data:/root/.lightning
-      ports:
-        - "0.0.0.0:9735:9735"
-        - "0.0.0.0:3002:3002"
-        - "0.0.0.0:4001:4001"
+      expose:
+        - "9735"
+        - "4001"
       depends_on:
         - "bitcoin"
       command: 
@@ -55,7 +52,6 @@
         - --rest-port=3002
         - --rest-docport=4001
 
-
     lightning-ui:
       container_name: signet-ui
       image: dangershony/clnd-rtl:latest
@@ -63,7 +59,17 @@
         - lnnet
       volumes:
         - lnd-rest:/rest
+      expose:
+        - "3000"
+      depends_on:
+        - "lightning"
+
+    lightning-ui-proxy:
+      container_name: signet-ui-proxy
+      image: dangershony/clnd-rtl-proxy:latest
+      networks:
+        - lnnet
       ports:
-        - "0.0.0.0:3000:3000"
+        - "0.0.0.0:3002:3002"
       depends_on:
         - "lightning"
