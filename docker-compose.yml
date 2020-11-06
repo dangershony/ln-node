@@ -71,5 +71,6 @@
         - lnnet
       ports:
         - "0.0.0.0:3002:3002"
+        - "0.0.0.0:443:443"
       depends_on:
         - "lightning-ui"
