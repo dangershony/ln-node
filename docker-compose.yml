@@ -17,7 +17,8 @@
         - btc-data:/root/.bitcoin
       expose:
         - "38332"
-        - "38333"
+      ports:
+        - "0.0.0.0:38333:38333"
       command: 
         - bitcoind
         - -signet
@@ -37,8 +38,9 @@
         - lnd-rest:/rest
         - lnd-data:/root/.lightning
       expose:
-        - "9735"
         - "4001"
+      ports:
+        - "0.0.0.0:9735:9735"
       depends_on:
         - "bitcoin"
       command: 
@@ -60,7 +62,7 @@
       volumes:
         - lnd-rest:/rest
       ports:
-          - "0.0.0.0:3000:3000"
+        - "0.0.0.0:3000:3000"
       depends_on:
         - "lightning"
 
