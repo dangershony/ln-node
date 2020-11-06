@@ -59,8 +59,8 @@
         - lnnet
       volumes:
         - lnd-rest:/rest
-      expose:
-        - "3000"
+      ports:
+          - "0.0.0.0:3000:3000"
       depends_on:
         - "lightning"
 
@@ -72,4 +72,4 @@
       ports:
         - "0.0.0.0:3002:3002"
       depends_on:
-        - "lightning"
+        - "lightning-ui"
